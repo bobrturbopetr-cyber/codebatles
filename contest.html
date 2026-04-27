@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Турниры — CodeBattles</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #0a0e27; color: #e0e0e0; }
+        
+        .header {
+            background: #0f1228;
+            border-bottom: 1px solid #1a1f3a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo h1 { font-size: 24px; color: #ff6b00; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: #e0e0e0; text-decoration: none; }
+        .nav-links a.active { color: #ff6b00; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px; }
+        
+        .contests-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .contest-card {
+            background: #0f1228;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #1a1f3a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .contest-info h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .contest-date {
+            color: #ff6b00;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .contest-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #a0a0a0;
+        }
+        
+        .contest-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-register {
+            background: #ff6b00;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .btn-spectate {
+            background: transparent;
+            border: 1px solid #4a90e2;
+            color: #4a90e2;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .footer {
+            background: #0f1228;
+            border-top: 1px solid #1a1f3a;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .upcoming-badge {
+            background: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .ongoing-badge {
+            background: #ed6c02;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Code<span style="color:#4a90e2">Battles</span></h1>
+            <div class="codepedia-badge" style="margin-left: 15px;">⚡ Codepedia</div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="problems.html">Задачи</a>
+            <a href="standings.html">Рейтинг</a>
+            <a href="contest.html" class="active">Турниры</a>
+            <a href="discuss.html">Обсуждения</a>
+        </div>
+        <div id="userMenu"></div>
+    </div>
+
+    <div class="container">
+        <h1 style="margin-bottom: 25px;">🏆 Турниры и соревнования</h1>
+        
+        <div class="contests-list">
+            <div class="contest-card">
+                <div class="contest-info">
+                    <div class="upcoming-badge">⚡ Стартует сегодня</div>
+                    <h3>Weekly Battles #42</h3>
+                    <div class="contest-date">📅 26 апреля 2026, 19:00 МСК</div>
+                    <div class="contest-stats">
+                        <span>⏱️ Длительность: 2 часа</span>
+                        <span>👥 Участников: 128</span>
+                        <span>📊 Задач: 5</span>
+                    </div>
+                </div>
+                <div class="contest-actions">
+                    <button class="btn-register">Зарегистрироваться</button>
+                </div>
+            </div>
+            
+            <div class="contest-card">
+                <div class="contest-info">
+                    <div class="upcoming-badge">🔥 HOT</div>
+                    <h3>Codepedia Cup 2026</h3>
+                    <div class="contest-date">📅 27 апреля 2026, 15:00 МСК</div>
+                    <div class="contest-stats">
+                        <span>⏱️ Длительность: 3 часа</span>
+                        <span>👥 Участников: 456</span>
+                        <span>📊 Задач: 7</span>
+                    </div>
+                </div>
+                <div class="contest-actions">
+                    <button class="btn-register">Зарегистрироваться</button>
+                </div>
+            </div>
+            
+            <div class="contest-card">
+                <div class="contest-info">
+                    <div class="ongoing-badge upgoing-badge" style="background:#ed6c02">🟢 Идёт сейчас</div>
+                    <h3>Codeforces Round #925 (Div. 3)</h3>
+                    <div class="contest-date">📅 26 апреля 2026, 14:35 МСК</div>
+                    <div class="contest-stats">
+                        <span>⏱️ Длительность: 2 часа 15 мин</span>
+                        <span>👥 Участников: 12,847</span>
+                        <span>📊 Задач: 6</span>
+                    </div>
+                </div>
+                <div class="contest-actions">
+                    <button class="btn-spectate">Наблюдать</button>
+                </div>
+            </div>
+        </div>
+        
+        <h2 style="margin: 40px 0 20px;">📋 Прошедшие турниры</h2>
+        <div class="contests-list">
+            <div class="contest-card">
+                <div class="contest-info">
+                    <h3>Weekly Battles #41</h3>
+                    <div class="contest-date">📅 19 апреля 2026, 19:00 МСК</div>
+                    <div class="contest-stats">
+                        <span>👥 112 участников</span>
+                        <span>🏆 Победитель: tourist</span>
+                    </div>
+                </div>
+                <div class="contest-actions">
+                    <button class="btn-spectate">Результаты</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024-2026 CodeBattles | При поддержке Codepedia | Хостинг на Cloudflare</p>
+    </div>
+</body>
+</html>
