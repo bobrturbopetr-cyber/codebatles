@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задачи — CodeBattles</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #0a0e27; color: #e0e0e0; }
+        
+        .header {
+            background: #0f1228;
+            border-bottom: 1px solid #1a1f3a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo h1 { font-size: 24px; color: #ff6b00; }
+        .codepedia-badge { background: #1a1f3a; padding: 5px 12px; border-radius: 20px; font-size: 12px; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: #e0e0e0; text-decoration: none; }
+        .nav-links a:hover, .nav-links a.active { color: #ff6b00; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px; }
+        
+        .filters {
+            background: #0f1228;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-btn {
+            background: #1a1f3a;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: #ff6b00;
+            color: white;
+        }
+        .search-input {
+            background: #1a1f3a;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            width: 250px;
+        }
+        
+        .problems-table {
+            background: #0f1228;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #1a1f3a;
+        }
+        .table-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 100px 120px 120px;
+            padding: 15px 20px;
+            border-bottom: 1px solid #1a1f3a;
+            align-items: center;
+        }
+        .table-header {
+            background: #1a1f3a;
+            font-weight: bold;
+            color: #ff6b00;
+        }
+        .problem-link {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        .problem-link:hover {
+            color: #ff6b00;
+        }
+        .difficulty-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            width: fit-content;
+        }
+        .footer {
+            background: #0f1228;
+            border-top: 1px solid #1a1f3a;
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Code<span style="color:#4a90e2">Battles</span></h1>
+            <div class="codepedia-badge">⚡ при поддержке Codepedia</div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="problems.html" class="active">Задачи</a>
+            <a href="standings.html">Рейтинг</a>
+            <a href="contest.html">Турниры</a>
+            <a href="discuss.html">Обсуждения</a>
+        </div>
+        <div class="user-menu" id="userMenu">
+            <button class="login-btn" onclick="window.location.href='#login'">Вход</button>
+            <button class="register-btn" onclick="window.location.href='#register'">Регистрация</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 style="margin-bottom: 25px;">📚 Архив задач</h1>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-difficulty="all">Все</button>
+            <button class="filter-btn" data-difficulty="easy">Легкие</button>
+            <button class="filter-btn" data-difficulty="medium">Средние</button>
+            <button class="filter-btn" data-difficulty="hard">Сложные</button>
+            <input type="text" class="search-input" placeholder="Поиск задач..." id="searchInput">
+        </div>
+        
+        <div class="problems-table" id="problemsTable">
+            <div class="table-row table-header">
+                <div>ID</div>
+                <div>Название</div>
+                <div>Сложность</div>
+                <div>Решений</div>
+                <div>Процент</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2024-2026 CodeBattles | При поддержке Codepedia | Хостинг на Cloudflare</p>
+    </div>
+
+    <script>
+        const problems = [
+            { id: "1000", name: "A + B", difficulty: "easy", solves: 1234, percent: 98 },
+            { id: "1001", name: "Сумма квадратов", difficulty: "easy", solves: 987, percent: 92 },
+            { id: "1100", name: "Простое число", difficulty: "easy", solves: 876, percent: 85 },
+            { id: "1200", name: "Сортировка пузырьком", difficulty: "medium", solves: 654, percent: 72 },
+            { id: "1300", name: "Двоичный поиск", difficulty: "medium", solves: 543, percent: 68 },
+            { id: "1400", name: "Динамическое программирование", difficulty: "hard", solves: 321, percent: 45 },
+            { id: "1500", name: "Графы. BFS", difficulty: "hard", solves: 234, percent: 38 },
+            { id: "1600", name: "Алгоритм Дейкстры", difficulty: "hard", solves: 187, percent: 32 }
+        ];
+        
+        function getDifficultyClass(diff) {
+            if (diff === 'easy') return 'difficulty-easy';
+            if (diff === 'medium') return 'difficulty-medium';
+            return 'difficulty-hard';
+        }
+        
+        function getDifficultyText(diff) {
+            if (diff === 'easy') return 'Легкая';
+            if (diff === 'medium') return 'Средняя';
+            return 'Сложная';
+        }
+        
+        function renderProblems(filter = 'all', search = '') {
+            const filtered = problems.filter(p => {
+                const matchDifficulty = filter === 'all' || p.difficulty === filter;
+                const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.id.includes(search);
+                return matchDifficulty && matchSearch;
+            });
+            
+            const html = filtered.map(p => `
+                <div class="table-row">
+                    <div>${p.id}</div>
+                    <div><a href="problem.html?id=${p.id}" class="problem-link">${p.name}</a></div>
+                    <div><span class="difficulty-badge ${getDifficultyClass(p.difficulty)}">${getDifficultyText(p.difficulty)}</span></div>
+                    <div>✅ ${p.solves}</div>
+                    <div>⭐ ${p.percent}%</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('problemsTable').innerHTML = `
+                <div class="table-row table-header">
+                    <div>ID</div>
+                    <div>Название</div>
+                    <div>Сложность</div>
+                    <div>Решений</div>
+                    <div>Процент</div>
+                </div>
+                ${html || '<div class="table-row" style="text-align:center">Задачи не найдены</div>'}
+            `;
+        }
+        
+        // Фильтры
+        let currentFilter = 'all';
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.difficulty;
+                renderProblems(currentFilter, document.getElementById('searchInput').value);
+            });
+        });
+        
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderProblems(currentFilter, e.target.value);
+        });
+        
+        renderProblems();
+    </script>
+</body>
+</html>
