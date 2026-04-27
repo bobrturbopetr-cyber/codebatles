@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обсуждения — CodeBattles</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #0a0e27; color: #e0e0e0; }
+        
+        .header {
+            background: #0f1228;
+            border-bottom: 1px solid #1a1f3a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo h1 { font-size: 24px; color: #ff6b00; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: #e0e0e0; text-decoration: none; }
+        .nav-links a.active { color: #ff6b00; }
+        
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px; }
+        
+        .new-topic {
+            background: #0f1228;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #1a1f3a;
+        }
+        
+        .new-topic input, .new-topic textarea {
+            width: 100%;
+            background: #1a1f3a;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            margin-bottom: 12px;
+        }
+        
+        .new-topic textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-create {
+            background: #ff6b00;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .topics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .topic-card {
+            background: #0f1228;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #1a1f3a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            transition: border-color 0.2s;
+        }
+        
+        .topic-card:hover {
+            border-color: #ff6b00;
+        }
+        
+        .topic-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .topic-title a {
+            color: #e0e0e0;
+            text-decoration: none;
+        }
+        
+        .topic-meta {
+            font-size: 12px;
+            color: #a0a0a0;
+        }
+        
+        .topic-stats {
+            text-align: right;
+        }
+        
+        .topic-replies {
+            font-size: 14px;
+            color: #ff6b00;
+        }
+        
+        .footer {
+            background: #0f1228;
+            border-top: 1px solid #1a1f3a;
+            padding: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Code<span style="color:#4a90e2">Battles</span></h1>
+            <div class="codepedia-badge" style="margin-left: 15px;">⚡ Codepedia</div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="problems.html">Задачи</a>
+            <a href="standings.html">Рейтинг</a>
+            <a href="contest.html">Турниры</a>
+            <a href="discuss.html" class="active">Обсуждения</a>
+        </div>
+        <div id="userMenu"></div>
+    </div>
+
+    <div class="container">
+        <div class="new-topic">
+            <input type="text" id="topicTitle" placeholder="Заголовок темы...">
+            <textarea id="topicContent" placeholder="Содержание сообщения..."></textarea>
+            <button class="btn-create" onclick="createTopic()">➕ Создать тему</button>
+        </div>
+        
+        <div class="topics-list" id="topicsList"></div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024-2026 CodeBattles | При поддержке Codepedia | Хостинг на Cloudflare</p>
+    </div>
+
+    <script>
+        let topics = [
+            { id: 1, title: "Как решить задачу A+B?", author: "newbie", date: "2026-04-25", replies: 12, lastUser: "tourist" },
+            { id: 2, title: "Обсуждение Weekly Battles #41", author: "admin", date: "2026-04-20", replies: 45, lastUser: "Petr" },
+            { id: 3, title: "Лучшие ресурсы для изучения алгоритмов", author: "coder123", date: "2026-04-18", replies: 23, lastUser: "Benq" },
+            { id: 4, title: "Codepedia — отличная энциклопедия!", author: "mashkov", date: "2026-04-15", replies: 8, lastUser: "mashkov" }
+        ];
+        
+        function renderTopics() {
+            const html = topics.map(topic => `
+                <div class="topic-card">
+                    <div>
+                        <div class="topic-title">
+                            <a href="topic.html?id=${topic.id}">${topic.title}</a>
+                        </div>
+                        <div class="topic-meta">
+                            👤 ${topic.author} • 📅 ${topic.date}
+                        </div>
+                    </div>
+                    <div class="topic-stats">
+                        <div class="topic-replies">💬 ${topic.replies} ответов</div>
+                        <div class="topic-meta">Последний: ${topic.lastUser}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('topicsList').innerHTML = html;
+        }
+        
+        function createTopic() {
+            const title = document.getElementById('topicTitle').value;
+            const content = document.getElementById('topicContent').value;
+            
+            if (!title.trim()) {
+                alert('Введите заголовок');
+                return;
+            }
+            
+            const newTopic = {
+                id: topics.length + 1,
+                title: title,
+                author: "current_user",
+                date: new Date().toISOString().split('T')[0],
+                replies: 0,
+                lastUser: "current_user"
+            };
+            
+            topics.unshift(newTopic);
+            renderTopics();
+            
+            document.getElementById('topicTitle').value = '';
+            document.getElementById('topicContent').value = '';
+            
+            alert('Тема создана!');
+        }
+        
+        renderTopics();
+    </script>
+</body>
+</html>
