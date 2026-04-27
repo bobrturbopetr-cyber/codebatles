@@ -1,0 +1,48 @@
+/* Дополнительные стили для CodeBattles */
+
+.codepedia-badge {
+    background: #1a1f3a;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #ff6b00;
+}
+
+.btn-primary {
+    background: #ff6b00;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #ff8533;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid #4a90e2;
+    color: #4a90e2;
+    padding: 12px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.difficulty-easy { background: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+.difficulty-medium { background: #ed6c02; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+.difficulty-hard { background: #d32f2f; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+
+.problem-link {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+.problem-link:hover {
+    color: #ff6b00;
+}
