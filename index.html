@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeBattles — соревнования по программированию</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+        }
+
+        /* Шапка */
+        .header {
+            background: #0f1228;
+            border-bottom: 1px solid #1a1f3a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: #ff6b00;
+        }
+
+        .logo span {
+            color: #4a90e2;
+        }
+
+        .codepedia-badge {
+            background: #1a1f3a;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #ff6b00;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b00;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .login-btn, .register-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            background: transparent;
+            border: 1px solid #4a90e2;
+            color: #4a90e2;
+        }
+
+        .register-btn {
+            background: #ff6b00;
+            border: none;
+            color: white;
+        }
+
+        /* Основной контент */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Герой-секция */
+        .hero {
+            background: linear-gradient(135deg, #0f1228 0%, #1a1f3a 100%);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #a0a0a0;
+            margin-bottom: 25px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #ff6b00;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #4a90e2;
+            color: #4a90e2;
+            padding: 12px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+
+        /* Статистика */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #0f1228;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #1a1f3a;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff6b00;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-top: 8px;
+        }
+
+        /* Секции */
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .problems-grid, .contests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .problem-card, .contest-card {
+            background: #0f1228;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #1a1f3a;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .problem-card:hover, .contest-card:hover {
+            transform: translateY(-2px);
+            border-color: #ff6b00;
+        }
+
+        .problem-difficulty {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .difficulty-easy { background: #2e7d32; color: #fff; }
+        .difficulty-medium { background: #ed6c02; color: #fff; }
+        .difficulty-hard { background: #d32f2f; color: #fff; }
+
+        .problem-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .problem-stats {
+            font-size: 12px;
+            color: #a0a0a0;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .contest-date {
+            font-size: 12px;
+            color: #ff6b00;
+            margin-bottom: 10px;
+        }
+
+        /* Подвал */
+        .footer {
+            background: #0f1228;
+            border-top: 1px solid #1a1f3a;
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Code<span style="color:#4a90e2">Battles</span></h1>
+            <div class="codepedia-badge">⚡ при поддержке Codepedia</div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="problems.html">Задачи</a>
+            <a href="standings.html">Рейтинг</a>
+            <a href="contest.html">Турниры</a>
+            <a href="discuss.html">Обсуждения</a>
+        </div>
+        <div class="user-menu" id="userMenu">
+            <button class="login-btn" onclick="window.location.href='#login'">Вход</button>
+            <button class="register-btn" onclick="window.location.href='#register'">Регистрация</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Герой-секция -->
+        <div class="hero">
+            <h2>⚔️ CodeBattles</h2>
+            <p>Соревнуйся с лучшими программистами. Решай задачи. Расти в рейтинге.</p>
+            <div class="hero-buttons">
+                <a href="problems.html" class="btn-primary">Начать решать →</a>
+                <a href="contest.html" class="btn-secondary">Участвовать в турнире</a>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">1,247</div>
+                <div class="stat-label">Активных участников</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">156</div>
+                <div class="stat-label">Задач</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24</div>
+                <div class="stat-label">Турниров проведено</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4.2K</div>
+                <div class="stat-label">Решений отправлено</div>
+            </div>
+        </div>
+
+        <!-- Популярные задачи -->
+        <h2 class="section-title">🔥 Популярные задачи</h2>
+        <div class="problems-grid">
+            <div class="problem-card">
+                <span class="problem-difficulty difficulty-easy">Легкая</span>
+                <div class="problem-title">A + B</div>
+                <div class="problem-stats">
+                    <span>✅ 1,234 решений</span>
+                    <span>⭐ 98%</span>
+                </div>
+            </div>
+            <div class="problem-card">
+                <span class="problem-difficulty difficulty-medium">Средняя</span>
+                <div class="problem-title">Сумма простых чисел</div>
+                <div class="problem-stats">
+                    <span>✅ 856 решений</span>
+                    <span>⭐ 76%</span>
+                </div>
+            </div>
+            <div class="problem-card">
+                <span class="problem-difficulty difficulty-hard">Сложная</span>
+                <div class="problem-title">Динамическое программирование</div>
+                <div class="problem-stats">
+                    <span>✅ 342 решения</span>
+                    <span>⭐ 52%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Активные турниры -->
+        <h2 class="section-title">🏆 Активные турниры</h2>
+        <div class="contests-grid">
+            <div class="contest-card">
+                <div class="contest-date">🏁 Старт: сегодня, 19:00</div>
+                <div class="problem-title">Weekly Battles #42</div>
+                <div class="problem-stats">
+                    <span>👥 128 участников</span>
+                    <span>⏱️ 2 часа</span>
+                </div>
+            </div>
+            <div class="contest-card">
+                <div class="contest-date">🏁 Старт: завтра, 15:00</div>
+                <div class="problem-title">Codepedia Cup 2026</div>
+                <div class="problem-stats">
+                    <span>👥 456 участников</span>
+                    <span>⏱️ 3 часа</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Топ рейтинга -->
+        <h2 class="section-title">📊 Топ рейтинга</h2>
+        <style>
+            .ranking-table {
+                background: #0f1228;
+                border-radius: 12px;
+                overflow: hidden;
+                border: 1px solid #1a1f3a;
+            }
+            .ranking-row {
+                display: grid;
+                grid-template-columns: 60px 1fr 100px 100px;
+                padding: 15px 20px;
+                border-bottom: 1px solid #1a1f3a;
+            }
+            .ranking-header {
+                background: #1a1f3a;
+                font-weight: bold;
+                color: #ff6b00;
+            }
+            .ranking-rank {
+                font-weight: bold;
+                color: #ff6b00;
+            }
+        </style>
+        <div class="ranking-table">
+            <div class="ranking-row ranking-header">
+                <div>#</div>
+                <div>Участник</div>
+                <div>Рейтинг</div>
+                <div>Решено</div>
+            </div>
+            <div class="ranking-row">
+                <div class="ranking-rank">1</div>
+                <div>🏆 tourist</div>
+                <div>3542</div>
+                <div>247</div>
+            </div>
+            <div class="ranking-row">
+                <div class="ranking-rank">2</div>
+                <div>⭐ Petr</div>
+                <div>3421</div>
+                <div>231</div>
+            </div>
+            <div class="ranking-row">
+                <div class="ranking-rank">3</div>
+                <div>⚡ jiangly</div>
+                <div>3389</div>
+                <div>228</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024-2026 CodeBattles | При поддержке <a href="#">Codepedia</a> | Хостинг на <a href="#">Cloudflare</a></p>
+        <p style="margin-top: 10px;">⚡ Соревновательная платформа для программистов | Решай задачи и становись лучше!</p>
+    </div>
+
+    <script>
+        // Проверка авторизации
+        const token = localStorage.getItem('cb_token');
+        if (token) {
+            const userMenu = document.getElementById('userMenu');
+            const username = localStorage.getItem('cb_username');
+            userMenu.innerHTML = `
+                <span style="color:#4a90e2">👤 ${username}</span>
+                <button class="login-btn" onclick="logout()">Выйти</button>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem('cb_token');
+            localStorage.removeItem('cb_username');
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
