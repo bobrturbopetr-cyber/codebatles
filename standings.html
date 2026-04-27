@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рейтинг — CodeBattles</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #0a0e27; color: #e0e0e0; }
+        
+        .header {
+            background: #0f1228;
+            border-bottom: 1px solid #1a1f3a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo h1 { font-size: 24px; color: #ff6b00; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: #e0e0e0; text-decoration: none; }
+        .nav-links a.active { color: #ff6b00; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px; }
+        
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .rating-filter {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .rating-filter select {
+            background: #1a1f3a;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            color: white;
+        }
+        
+        .ranking-table {
+            background: #0f1228;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #1a1f3a;
+        }
+        
+        .ranking-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 120px 100px;
+            padding: 15px 20px;
+            border-bottom: 1px solid #1a1f3a;
+            align-items: center;
+        }
+        
+        .ranking-header {
+            background: #1a1f3a;
+            font-weight: bold;
+            color: #ff6b00;
+        }
+        
+        .rank-1 { color: #ffd700; font-weight: bold; }
+        .rank-2 { color: #c0c0c0; font-weight: bold; }
+        .rank-3 { color: #cd7f32; font-weight: bold; }
+        
+        .user-link {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        
+        .footer {
+            background: #0f1228;
+            border-top: 1px solid #1a1f3a;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .ranking-row {
+                grid-template-columns: 60px 1fr 80px 80px 70px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Code<span style="color:#4a90e2">Battles</span></h1>
+            <div class="codepedia-badge" style="margin-left: 15px;">⚡ Codepedia</div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="problems.html">Задачи</a>
+            <a href="standings.html" class="active">Рейтинг</a>
+            <a href="contest.html">Турниры</a>
+            <a href="discuss.html">Обсуждения</a>
+        </div>
+        <div id="userMenu"></div>
+    </div>
+
+    <div class="container">
+        <div class="ranking-header">
+            <h1>📊 Рейтинг участников</h1>
+            <div class="rating-filter">
+                <select id="ratingType">
+                    <option value="overall">Общий рейтинг</option>
+                    <option value="monthly">За месяц</option>
+                    <option value="weekly">За неделю</option>
+                </select>
+                <select id="countryFilter">
+                    <option value="all">Все страны</option>
+                    <option value="ru">Россия</option>
+                    <option value="us">США</option>
+                    <option value="cn">Китай</option>
+                    <option value="jp">Япония</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="ranking-table" id="rankingTable">
+            <div class="ranking-row ranking-header">
+                <div>#</div>
+                <div>Участник</div>
+                <div>Рейтинг</div>
+                <div>Решено</div>
+                <div>Страна</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024-2026 CodeBattles | При поддержке Codepedia | Хостинг на Cloudflare</p>
+    </div>
+
+    <script>
+        const users = [
+            { rank: 1, name: "tourist", rating: 3542, solved: 247, country: "cn", avatar: "🏆" },
+            { rank: 2, name: "Petr", rating: 3421, solved: 231, country: "ru", avatar: "⭐" },
+            { rank: 3, name: "jiangly", rating: 3389, solved: 228, country: "cn", avatar: "⚡" },
+            { rank: 4, name: "Benq", rating: 3356, solved: 219, country: "us", avatar: "🔥" },
+            { rank: 5, name: "Um_nik", rating: 3321, solved: 212, country: "ru", avatar: "🎯" },
+            { rank: 6, name: "ecnerwala", rating: 3298, solved: 208, country: "us", avatar: "💪" },
+            { rank: 7, name: "orz", rating: 3276, solved: 201, country: "cn", avatar: "✨" },
+            { rank: 8, name: "yama", rating: 3254, solved: 198, country: "jp", avatar: "🌸" },
+            { rank: 9, name: "Mikasa", rating: 3231, solved: 194, country: "jp", avatar: "⚔️" },
+            { rank: 10, name: "Alex", rating: 3210, solved: 189, country: "ru", avatar: "🚀" }
+        ];
+        
+        function getRankClass(rank) {
+            if (rank === 1) return 'rank-1';
+            if (rank === 2) return 'rank-2';
+            if (rank === 3) return 'rank-3';
+            return '';
+        }
+        
+        function getCountryFlag(country) {
+            const flags = { ru: "🇷🇺", us: "🇺🇸", cn: "🇨🇳", jp: "🇯🇵" };
+            return flags[country] || "🌍";
+        }
+        
+        function renderRanking() {
+            const ratingType = document.getElementById('ratingType').value;
+            const countryFilter = document.getElementById('countryFilter').value;
+            
+            let filtered = [...users];
+            if (countryFilter !== 'all') {
+                filtered = filtered.filter(u => u.country === countryFilter);
+            }
+            
+            const html = filtered.map(user => `
+                <div class="ranking-row">
+                    <div class="${getRankClass(user.rank)}">${user.rank}</div>
+                    <div><a href="profile.html?user=${user.name}" class="user-link">${user.avatar} ${user.name}</a></div>
+                    <div style="font-weight: bold; color: #ff6b00;">${user.rating}</div>
+                    <div>${user.solved}</div>
+                    <div>${getCountryFlag(user.country)}</div>
+                </div>
+            `).join('');
+            
+            document.getElementById('rankingTable').innerHTML = `
+                <div class="ranking-row ranking-header">
+                    <div>#</div>
+                    <div>Участник</div>
+                    <div>Рейтинг</div>
+                    <div>Решено</div>
+                    <div>Страна</div>
+                </div>
+                ${html}
+            `;
+        }
+        
+        document.getElementById('ratingType').addEventListener('change', renderRanking);
+        document.getElementById('countryFilter').addEventListener('change', renderRanking);
+        
+        renderRanking();
+    </script>
+</body>
+</html>
