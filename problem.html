@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задача — CodeBattles</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: #0a0e27; color: #e0e0e0; }
+        
+        .header {
+            background: #0f1228;
+            border-bottom: 1px solid #1a1f3a;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo h1 { font-size: 24px; color: #ff6b00; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: #e0e0e0; text-decoration: none; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px; display: flex; gap: 30px; }
+        
+        .problem-statement {
+            flex: 2;
+            background: #0f1228;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #1a1f3a;
+        }
+        
+        .problem-sidebar {
+            flex: 1;
+        }
+        
+        .info-card {
+            background: #0f1228;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #1a1f3a;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: #ff6b00;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        pre {
+            background: #1a1f3a;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .difficulty-easy { background: #2e7d32; }
+        .difficulty-medium { background: #ed6c02; }
+        .difficulty-hard { background: #d32f2f; }
+        
+        .footer {
+            background: #0f1228;
+            border-top: 1px solid #1a1f3a;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>Code<span style="color:#4a90e2">Battles</span></h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="problems.html">Задачи</a>
+            <a href="standings.html">Рейтинг</a>
+            <a href="contest.html">Турниры</a>
+        </div>
+        <div id="userMenu"></div>
+    </div>
+
+    <div class="container" id="app">
+        <!-- Загружается динамически -->
+        <div style="text-align: center; padding: 50px;">Загрузка задачи...</div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024-2026 CodeBattles | При поддержке Codepedia</p>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const problemId = urlParams.get('id') || '1000';
+        
+        const problems = {
+            '1000': {
+                id: '1000',
+                name: 'A + B',
+                difficulty: 'easy',
+                timeLimit: '1 секунда',
+                memoryLimit: '256 MB',
+                statement: `
+                    <h2>Условие</h2>
+                    <p>Даны два целых числа A и B. Найдите их сумму.</p>
+                    <h3>Входные данные</h3>
+                    <p>В единственной строке входного файла даны два целых числа A и B (−10^9 ≤ A, B ≤ 10^9).</p>
+                    <h3>Выходные данные</h3>
+                    <p>Выведите одно целое число — сумму A + B.</p>
+                    <h3>Примеры</h3>
+                    <pre>Вход: 1 2\nВыход: 3</pre>
+                    <pre>Вход: -5 7\nВыход: 2</pre>
+                `,
+                sampleSolution: `#include <iostream>\nusing namespace std;\nint main() {\n    int a, b;\n    cin >> a >> b;\n    cout << a + b << endl;\n    return 0;\n}`
+            },
+            '1100': {
+                id: '1100',
+                name: 'Простое число',
+                difficulty: 'easy',
+                statement: `<h2>Условие</h2><p>Проверить, является ли число простым.</p>`
+            }
+        };
+        
+        const problem = problems[problemId] || problems['1000'];
+        
+        document.getElementById('app').innerHTML = `
+            <div class="problem-statement">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h1>${problem.id}. ${problem.name}</h1>
+                    <span class="difficulty-badge difficulty-${problem.difficulty}">
+                        ${problem.difficulty === 'easy' ? 'Легкая' : problem.difficulty === 'medium' ? 'Средняя' : 'Сложная'}
+                    </span>
+                </div>
+                ${problem.statement}
+            </div>
+            <div class="problem-sidebar">
+                <div class="info-card">
+                    <h3>⚡ Информация</h3>
+                    <p><strong>Ограничение по времени:</strong> ${problem.timeLimit || '2 секунды'}</p>
+                    <p><strong>Ограничение по памяти:</strong> ${problem.memoryLimit || '256 MB'}</p>
+                    <button class="submit-btn" onclick="window.location.href='submit.html?id=${problem.id}'">✏️ Отправить решение</button>
+                </div>
+                <div class="info-card">
+                    <h3>📊 Статистика</h3>
+                    <p>✅ Решений: 1,234</p>
+                    <p>⭐ Процент успеха: 98%</p>
+                </div>
+            </div>
+        `;
+    </script>
+</body>
+</html>
